@@ -1,0 +1,9 @@
+predictive analytics 에서 가격을 예측하든, 포트폴리오를 예측하든 먼저 features 들에 대해서 clustering 이 필요 합니다. 예를들어 F = {f1, f2, f3 ... f5} 가 있다고 가정하면 
+가장 예측력이 높은 F 의 subset of features 들을 선정해야하는데, 여기서 예측력은 granger causality 및 여러 방식으로 테스트 가능해서 과연 set(f_a, f_b, f_c} 가 
+predictive 한지 안한지에 대해서는 그렇게 큰 문제는 아닙니다. 근데 거의 대부분의 causality 함수들은 monotonic 하지 않고 전체 features 수들중 전체 subset의 
+경우의수는 거의 2^n 이기 떄문에 NP hard 문제 입니다. kNN 이나 clustering 및 dimensionality reduction 을 사용가능하지만 이론적인 문제가 features 들의 
+규격이 다 다릅니다 (unstructured data, sparse data ... etc) 특히 기존의 clustering 방식으로는 각 각 feature 들의 예측력을 측정하는데, 각 각 subset of features
+들을 테스트 안하고 각 각 feature 들의 예측력을 측정하여 랭킹시스템과 유사한 방식으로 하는 기존의 clustering 방식의 이론적 문제점은 feature 들 사이에서의 
+causality/dependencies 를 측정을 안하며 서로간의 conditional probability 부분도 고려를 안합니다 p(Y | f1, f2) != p(Y | f1) + p(Y | f2)
+그래서 제가 생각을 한 방식중 하나가 https://www.archives-ouvertes.fr/hal-01467523/document 에서 나온 방식으로 feature selection 을 한후 (redundant 한 feature 들을 삭제), 
+각 각 feature 들을 clustering 해야하는데 f1, f2 들의 거리를 기존의 euclidean distance 가 아닌, (f1, f2) 의 target varialbe 의 causal 예측력을 기반으로 할려고 합니다. 
